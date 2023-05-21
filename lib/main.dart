@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Satoshi',
       ),
-      home: RegisterScreen(),
+      home: LoginScreen(),
 
     );
   }

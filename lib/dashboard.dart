@@ -1,4 +1,5 @@
 import 'package:untitled/currency/currencyConvert.dart';
+import 'package:untitled/login/login.dart';
 import 'package:untitled/nav/kesan.dart';
 import 'package:untitled/nav/profile.dart';
 import 'package:untitled/time/timeConvert.dart';
@@ -111,10 +112,8 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 title: Text('Log Out'),
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => Kesan()),
-                  // );
+                  Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()));
                 },
               ),
             ],
