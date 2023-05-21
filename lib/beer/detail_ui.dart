@@ -11,14 +11,18 @@ class BeerDetails extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(beer.name),
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white,
+        foregroundColor: Colors.white70,
+        backgroundColor: Color.fromRGBO(38, 58, 41, 1),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Image.network(
+              beer.image_url!,
+              // fit: BoxFit.cover,
+            ),
             Text(
               'Ingredients:',
               style: TextStyle(

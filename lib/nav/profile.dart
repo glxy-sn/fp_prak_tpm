@@ -8,6 +8,7 @@ class Profile extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
+        backgroundColor: Color.fromRGBO(38, 58, 41, 1),
       ),
       body: Center(
         child: Column(
@@ -35,7 +36,23 @@ class Profile extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => DetailPage()),
                 );
               },
-              child: Text('Detail'),
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromRGBO(38, 58, 41, 1), // Warna latar belakang tombol
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0), // Mengatur radius sudut tombol
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                child: Text(
+                  'Detail',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white, // Warna teks tombol
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -51,6 +68,7 @@ class DetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Detail Profile'),
+        backgroundColor: Color.fromRGBO(38, 58, 41, 1),
       ),
       body: Center(
         child: Column(
@@ -87,7 +105,7 @@ class DetailPage extends StatelessWidget {
             ),
             SizedBox(height: 8.0),
             Text(
-              'Harapan/Cita-Cita: Menjadi orang kaya',
+              'Harapan/Cita-Cita: Hidup',
               style: TextStyle(fontSize: 20.0),
             ),
           ],

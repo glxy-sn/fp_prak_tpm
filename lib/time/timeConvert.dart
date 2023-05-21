@@ -1,92 +1,84 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import "package:intl/intl.dart";
+import 'package:intl/intl.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
-class Calendar extends StatefulWidget {
+class TimeConverter extends StatefulWidget {
+  const TimeConverter({Key? key}) : super(key: key);
 
   @override
-  _CalendarState createState() => _CalendarState();
+  State<TimeConverter> createState() => _TimeConverterState();
 }
 
-class _CalendarState extends State<Calendar> {
-  String _timeString = ' ';
-  String _zoneString = 'WIB';
+class _TimeConverterState extends State<TimeConverter> {
+  String _currentTime = '';
+  String _currentZone = 'WIB';
 
-  @override
   void initState() {
     super.initState();
-    _timeString = _formatDateTime(DateTime.now(), _zoneString);
-    Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
+    tz.initializeTimeZones();
+    _updateTime();
   }
 
-  void _getTime() {
-    final DateTime now = DateTime.now();
-    _timeString = _formatDateTime(now, _zoneString);
-    setState(() {});
-  }
-
-  String _formatDateTime(DateTime dateTime, String zone) {
-    if (zone == 'WIB') {
-      dateTime = dateTime.add(Duration(hours: 0));
-    } else if (zone == 'WITA') {
-      dateTime = dateTime.add(Duration(hours: 1));
-    } else if (zone == 'WIT') {
-      dateTime = dateTime.add(Duration(hours: 2));
-    } else if (zone == 'London'){
-      dateTime = dateTime.add(Duration(hours: -6));
-    }
-    String formattedDateTime =
-    DateFormat('EEEE, dd MMMM yyyy - HH:mm:ss').format(dateTime);
-    return formattedDateTime;
+  void _updateTime() {
+    setState(() {
+      //_currentDate = DateFormat('EEEE, d MMMM y').format(DateTime.now());
+      if(_currentZone == 'WIB'){
+        _currentTime = DateFormat('HH:mm:ss').format(tz.TZDateTime.now(tz.getLocation('Asia/Jakarta')));
+      }else if(_currentZone == 'WITA'){
+        _currentTime = DateFormat('HH:mm:ss').format(tz.TZDateTime.now(tz.getLocation('Asia/Makassar')));
+      }else if(_currentZone == 'WIT'){
+        _currentTime = DateFormat('HH:mm:ss').format(tz.TZDateTime.now(tz.getLocation('Asia/Jayapura')));
+      }else{
+        _currentTime = DateFormat('HH:mm:ss').format(tz.TZDateTime.now(tz.getLocation('Europe/London')));
+      }
+    });
+    Future.delayed(Duration(seconds: 1), () => _updateTime());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   title: Text('Clock'),
-      // ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              _timeString,
-              style: TextStyle(fontSize: 32.0),
-            ),
-            SizedBox(height: 16.0),
-            DropdownButton<String>(
-              value: _zoneString,
-              items: [
-                DropdownMenuItem<String>(
-                  child: Text('WIB'),
-                  value: 'WIB',
+    return SafeArea(
+        child: Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                    '$_currentTime',
+                    style: TextStyle(
+                        color: Color.fromRGBO(38, 58, 41, 1),
+                        fontSize: 80
+                    )
+                  //Theme.of(context).textTheme.headline1,
                 ),
-                DropdownMenuItem<String>(
-                  child: Text('WITA'),
-                  value: 'WITA',
-                ),
-                DropdownMenuItem<String>(
-                  child: Text('WIT'),
-                  value: 'WIT',
-                ),
-                DropdownMenuItem<String>(
-                  child: Text('London'),
-                  value: 'London',
-                ),
+                SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: DropdownButton<String>(
+                        value: _currentZone,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _currentZone = newValue!;
+                          });
+                        },
+                        items: <String>['WIB', 'WITA', 'WIT', 'London'].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ],
+                )
               ],
-              onChanged: (value) {
-                setState(() {
-                  _zoneString = value!;
-                  _timeString = _formatDateTime(DateTime.now(), _zoneString);
-                });
-              },
             ),
-          ],
-        ),
-      ),
+          ),
+        )
     );
   }
-
 }

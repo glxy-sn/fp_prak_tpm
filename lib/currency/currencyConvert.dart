@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class CurrencyConverter extends StatefulWidget {
   @override
   _CurrencyConverterState createState() => _CurrencyConverterState();
@@ -43,60 +42,80 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Currency Converter'),
-      // ),
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TextField(
+            SizedBox(height: 16.0),            TextField(
               controller: _fromController,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               onChanged: (value) {
                 _convert();
               },
+              cursorColor: Colors.white,
+              style: TextStyle(color: Colors.white.withOpacity(0.9)),
+              decoration: InputDecoration(
+                labelText: 'From',
+                labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
+                filled: true,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                fillColor: Color.fromRGBO(65, 100, 74, 1),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
+              ),
             ),
-            SizedBox(height: 16.0),
-            DropdownButtonFormField<String>(
-              value: _fromCurrency,
-              items: ['IDR', 'KRW', 'USD']
-                  .map((currency) => DropdownMenuItem(
-                child: Text(currency),
-                value: currency,
-              ))
-                  .toList(),
-              onChanged: (value) {
-                setState(() {
-                  _fromCurrency = value!;
-                });
-                _convert();
-              },
-            ),
-            SizedBox(height: 16.0),
-            DropdownButtonFormField<String>(
-              value: _toCurrency,
-              items: ['IDR', 'KRW', 'USD']
-                  .map((currency) => DropdownMenuItem(
-                child: Text(currency),
-                value: currency,
-              ))
-                  .toList(),
-              onChanged: (value) {
-                setState(() {
-                  _toCurrency = value!;
-                });
-                _convert();
-              },
-            ),
-            SizedBox(height: 16.0),
+                DropdownButtonFormField<String>(
+                  value: _fromCurrency,
+                  items: ['','IDR', 'KRW', 'USD']
+                      .map((currency) => DropdownMenuItem(
+                    child: Text(currency),
+                    value: currency,
+                  ))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _fromCurrency = value!;
+                    });
+                    _convert();
+                  },
+                ),
+            SizedBox(height: 50.0),
             TextField(
               controller: _toController,
               enabled: false,
+              cursorColor: Colors.white,
+              style: TextStyle(color: Colors.white.withOpacity(0.9)),
+              decoration: InputDecoration(
+                labelText: 'To',
+                labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
+                filled: true,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                fillColor: Color.fromRGBO(65, 100, 74, 1),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
+              ),
             ),
-          ],
-        ),
+                SizedBox(width: 16.0),
+                DropdownButtonFormField<String>(
+                      value: _toCurrency,
+                      items: ['','IDR', 'KRW', 'USD']
+                          .map((currency) => DropdownMenuItem(
+                        child: Text(currency),
+                        value: currency,
+                      ))
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _toCurrency = value!;
+                        });
+                        _convert();
+                      },
+                    )
+              ],
+            ),
       ),
     );
   }

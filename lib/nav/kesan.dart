@@ -6,8 +6,10 @@ class Kesan extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Kesan dan Pesan'),
+        backgroundColor: Color.fromRGBO(38, 58, 41, 1),
       ),
       body: Container(
+        // color: Color.fromRGBO(242, 227, 219, 1),
         padding: EdgeInsets.all(16.0),
         child: ListView(
           children: [

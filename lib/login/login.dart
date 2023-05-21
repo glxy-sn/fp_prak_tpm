@@ -1,4 +1,3 @@
-import 'dart:js';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -8,60 +7,17 @@ import 'package:untitled/login/widget.dart';
 
 final TextEditingController _emailController = TextEditingController();
 final TextEditingController _passwordController = TextEditingController();
+bool _showError = false;
 
-class LoginScreen extends StatelessWidget {
-  void _login(BuildContext context) async {
-    final String email = _emailController.text;
-    final String password = _passwordController.text;
 
-    final result = await login(email, password);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
-    if (result == true) {
-      // Login successful, navigate to the dashboard screen
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Dashboard()),
-      );
-    } else if (result == false) {
-      // Login failed, display an error message
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Login Failed'),
-          content: Text('Invalid email or password. Please try again.'),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('OK'),
-            ),
-          ],
-        ),
-      );
-    }
-  }
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
 
-  Future<bool> login(String email, String password) async {
-    final url = Uri.parse('http://localhost/flutter/login-fix.php'); // Replace with the URL of your login script
-
-    final response = await http.post(
-      url,
-      body: {
-        'email': email,
-        'password': password,
-      },
-    );
-
-    // if (response.statusCode == 200) {
-    //   // Login successful
-    //   print('Login successful');
-    // } else {
-    //   // Login failed
-    //   print('Login failed');
-    // }
-    return true;
-  }
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,26 +35,12 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(
               height: 300,
             ),
-            reusableTextField("Enter UserName", Icons.person_outline, false,
+            reusableTextField("Enter Email", Icons.person_outline, false,
                 _emailController),
             const SizedBox(
               height: 20,
             ),
-            // TextField(
-            //   controller: _emailController,
-            //   decoration: InputDecoration(
-            //     labelText: 'Email',
-            //   ),
-            // ),
-            // SizedBox(height: 16.0),
-            // TextField(
-            //   controller: _passwordController,
-            //   decoration: InputDecoration(
-            //     labelText: 'Password',
-            //   ),
-            //   obscureText: true,
-            // ),
-            // SizedBox(height: 24.0),
+            SizedBox(height: 24.0),
             reusableTextField("Enter Password", Icons.lock_outline, true,
                 _passwordController),
             const SizedBox(
@@ -141,20 +83,60 @@ class LoginScreen extends StatelessWidget {
                     " Sign Up",
                     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                   ),
-                )
+                ),
               ],
             ),
+            if (_showError)
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  'Invalid email or password',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              ),
           ],
         ),
       ),
     );
   }
+  Future<void> _login(BuildContext context) async {
+    final String email = _emailController.text;
+    final String password = _passwordController.text;
 
+    final response = await http.post(
+      Uri.parse('http://localhost/flutter/login-fix.php'),
+      body: {
+        'email': email,
+        'password': password,
+      },
+    );
 
-  // void _login() {
-  //   final String email = _emailController.text;
-  //   final String password = _passwordController.text;
-  //
-  //   login(email, password);
-  // }
+    if (response.statusCode == 200) {
+      final message = response.body;
+
+      if (message.toLowerCase().contains('login successful')) {
+        // Login success
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Dashboard()),
+        );
+        _emailController.clear();
+        _passwordController.clear();
+      } else {
+        // Login failed
+        setState(() {
+          _showError = true;
+        });
+      }
+    } else {
+      // Failed to connect to server
+      setState(() {
+        _showError = true;
+      });
+    }
+  }
 }
+
+

@@ -18,12 +18,9 @@ class _DashboardState extends State<Dashboard> {
   int _selectedIndex = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
-    Calendar(),
+    TimeConverter(),
     CurrencyConverter(),
     ListBeer(),
-    //PageListResep()
-    // MySliverAppBar(expandedHeight: , info: info),
-    //ResepHome(),
   ];
 
   void _onItemTapped(int index) {
@@ -44,7 +41,6 @@ class _DashboardState extends State<Dashboard> {
 
         body: Center(
             child: _widgetOptions.elementAt(_selectedIndex)
-          //IndexedStack(index: _selectedIndex)
         ),
         bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Color.fromRGBO(38, 58, 41, 1),
