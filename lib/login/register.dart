@@ -42,7 +42,7 @@ class RegisterScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(
-              height: 300,
+              height: 100,
             ),
             reusableTextField("Name", Icons.person_outline, false,
                 _nameController),

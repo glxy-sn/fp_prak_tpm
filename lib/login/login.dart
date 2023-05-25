@@ -3,7 +3,7 @@
 // import 'package:untitled/dashboard.dart';
 // import 'package:untitled/login/register.dart';
 // import 'package:untitled/login/widget.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+// // import 'package:shared_preferences/shared_preferences.dart';
 //
 // final TextEditingController _emailController = TextEditingController();
 // final TextEditingController _passwordController = TextEditingController();
@@ -35,7 +35,7 @@
 //           crossAxisAlignment: CrossAxisAlignment.stretch,
 //           children: [
 //             const SizedBox(
-//               height: 300,
+//               height: 100,
 //             ),
 //             reusableTextField("Enter Email", Icons.person_outline, false,
 //                 _emailController),
@@ -117,11 +117,10 @@
 //
 //     if (response.statusCode == 200) {
 //       final message = response.body;
-//
 //       if (message.toLowerCase().contains('login successful')) {
 //         // Save login status to shared preferences
-//         SharedPreferences prefsdata = await SharedPreferences.getInstance();
-//         await prefsdata.setBool('isLoggedIn', true);
+//         // SharedPreferences prefsdata = await SharedPreferences.getInstance();
+//         // await prefsdata.setBool('isLoggedIn', true);
 //         // Login success
 //         Navigator.push(
 //           context,
@@ -143,17 +142,15 @@
 //     }
 //   }
 // }
-//
-//
-//
-//
-//
+
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/dashboard.dart';
 import 'package:untitled/login/register.dart';
 import 'package:untitled/login/widget.dart';
+import 'dart:convert';
 
 final TextEditingController _emailController = TextEditingController();
 final TextEditingController _passwordController = TextEditingController();
@@ -216,7 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(
-              height: 300,
+              height: 100,
             ),
             reusableTextField(
               "Enter Email",
@@ -378,3 +375,4 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 }
+
