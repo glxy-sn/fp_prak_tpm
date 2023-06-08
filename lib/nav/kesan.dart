@@ -22,7 +22,7 @@ class Kesan extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             Text(
-              'capek :(',
+              'seruuww',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),

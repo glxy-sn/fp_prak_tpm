@@ -68,7 +68,17 @@ class _TimeConverterState extends State<TimeConverter> {
                         items: <String>['WIB', 'WITA', 'WIT', 'London'].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Container(
+                              // decoration: BoxDecoration(
+                              //   color: Colors.white,
+                              // ),
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                  color: Color.fromRGBO(38, 58, 41, 1),
+                                ),
+                              ),
+                            ),
                           );
                         }).toList(),
                       ),
